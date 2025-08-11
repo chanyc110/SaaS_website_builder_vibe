@@ -6,6 +6,7 @@ import { inngest } from "./client";
 import { getSandbox, lastAssistantTextMessageContent } from "./utils";
 import { PROMPT } from "@/prompt";
 import { prisma } from "@/lib/db";
+import { zodToJsonSchema } from "zod-to-json-schema";
 
 interface AgentState{
   summary: string;
