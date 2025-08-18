@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { convertFilesToTreeItems } from "@/lib/utils";
 import { TreeView } from "./tree-view";
-import { spawn } from "child_process";
+
 
 
 type FileCollection = { [path: string] : string};

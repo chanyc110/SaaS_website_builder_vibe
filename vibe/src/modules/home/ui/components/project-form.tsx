@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
 import { PROJECT_TEMPLATES } from "../../constants";
+import { useClerk } from "@clerk/nextjs";
 
 
 const formSchema = z.object({
@@ -27,6 +28,7 @@ export const ProjectForm = () => {
 
     const router = useRouter();
     const trpc = useTRPC();
+    const clerk = useClerk();
     const queryClient = useQueryClient();
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -41,12 +43,17 @@ export const ProjectForm = () => {
             queryClient.invalidateQueries(
                 trpc.projects.getMany.queryOptions(),
             );
-            router.push(`/project/${data.id}`);
+            router.push(`/projects/${data.id}`);
             // todo inavlidate 
         },
         onError: (error) => {
-            // todo redirect to pricing page if specific error
             toast.error(error.message)
+
+            if(error.data?.code === "UNAUTHORIZED"){
+                clerk.openSignIn();
+            }
+            // todo redirect to pricing page if specific error
+            
         }
     }))
 
